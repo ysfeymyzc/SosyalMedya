@@ -1,33 +1,26 @@
-name: Forge Mod Build
+name: Build Mod
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Reponu klonla
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      name: Make gradlew executable
-      run: chmod +x gradlew
+      - name: Make gradlew executable
+        run: chmod +x gradlew
 
-    - name: Java 21 kur
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: 21
+      - name: Build with Gradle
+        run: ./gradlew build
 
-    - name: Derle (gradlew build)
-      run: ./gradlew build
-
-    - name: Çıktıyı Kaydet (Artifacts)
-      uses: actions/upload-artifact@v4
-      with:
-        name: SosyalMedyaMod
-        path: build/libs/*.jar
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mod-build
+          path: build/libs/
