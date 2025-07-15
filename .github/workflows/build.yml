@@ -1,0 +1,30 @@
+name: Forge Mod Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Reponu klonla
+      uses: actions/checkout@v3
+
+    - name: Java 21 kur
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: 21
+
+    - name: Derle (gradlew build)
+      run: ./gradlew build
+
+    - name: Çıktıyı Kaydet (Artifacts)
+      uses: actions/upload-artifact@v3
+      with:
+        name: SosyalMedyaMod
+        path: build/libs/*.jar
